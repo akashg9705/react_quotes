@@ -3,3 +3,6 @@ uvicorn
 mysql-connector-python
 python-dotenv
 requests
+bcrypt==4.2.1
+passlib==1.7.4
+python-jose==3.5.0

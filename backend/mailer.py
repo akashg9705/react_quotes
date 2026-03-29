@@ -4,6 +4,8 @@ import smtplib
 import os
 from email.mime.text import MIMEText
 import time
+from backend.db import get_active_subscribers
+from backend.quotes import get_quote
 
 def send_email(to_email, quote, author):
     sender = os.environ["EMAIL_USER"]

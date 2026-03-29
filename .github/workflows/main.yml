@@ -1,0 +1,53 @@
+name: Full Stack CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # Checkout repo
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # ----------------------
+    # 🐍 Backend (FastAPI)
+    # ----------------------
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+
+    - name: Check backend syntax
+      run: |
+        cd backend
+        python -m py_compile api.py
+
+    # ----------------------
+    # ⚛️ Frontend (React)
+    # ----------------------
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "18"
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Build frontend
+      run: |
+        cd frontend
+        npm run build
