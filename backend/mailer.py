@@ -1,5 +1,4 @@
-from db import get_active_subscribers
-from quotes import get_quote
+
 import smtplib
 import os
 from email.mime.text import MIMEText
