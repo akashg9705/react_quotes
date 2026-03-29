@@ -17,6 +17,37 @@ def get_connection():
         print(f"Database connection error: {err}")
         return None
 
+def init_db():
+    conn = get_connection()
+    if not conn:
+        print("Failed to connect to database for initialization.")
+        return
+    
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL
+            )
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS subscribers (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255) NOT NULL,
+                user_id INT NOT NULL,
+                status VARCHAR(50) DEFAULT 'active'
+            )
+        """)
+        conn.commit()
+        print("Database tables initialized successfully.")
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+
 # ✅ USER FUNCTIONS
 
 def create_user(email, password):

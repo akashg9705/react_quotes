@@ -16,7 +16,8 @@ from backend.db import (
     unsubscribe,
     get_all_subscribers,
     create_user,
-    get_user
+    get_user,
+    init_db
 )
 
 from backend.quotes import get_quote
@@ -24,6 +25,10 @@ from backend.quotes import get_quote
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+@app.on_event("startup")
+def startup_db_client():
+    init_db()
 
 # 🔐 AUTH SYSTEM
 security = HTTPBearer()
